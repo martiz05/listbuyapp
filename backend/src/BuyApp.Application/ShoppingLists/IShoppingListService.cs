@@ -32,12 +32,13 @@ public interface IShoppingListService
         CancellationToken cancellationToken);
 }
 
-public sealed record CreateShoppingListCommand(string Name);
+public sealed record CreateShoppingListCommand(string Name, Guid? Id = null);
 
 public sealed record AddShoppingListItemCommand(
     string Name,
     decimal Quantity,
-    UnitOfMeasure UnitOfMeasure);
+    UnitOfMeasure UnitOfMeasure,
+    Guid? Id = null);
 
 public sealed record ShoppingListSummary(
     Guid Id,

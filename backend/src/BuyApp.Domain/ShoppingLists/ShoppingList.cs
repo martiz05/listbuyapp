@@ -36,16 +36,24 @@ public sealed class ShoppingList
 
     public IReadOnlyCollection<ShoppingListItem> Items => _items.AsReadOnly();
 
-    public static ShoppingList Create(Guid userId, string name, DateTimeOffset createdAtUtc)
+    public static ShoppingList Create(
+        Guid userId,
+        string name,
+        DateTimeOffset createdAtUtc,
+        Guid? id = null)
     {
-        return new ShoppingList(Guid.NewGuid(), userId, name, createdAtUtc);
+        return new ShoppingList(id ?? Guid.NewGuid(), userId, name, createdAtUtc);
     }
 
-    public ShoppingListItem AddItem(string name, decimal quantity, UnitOfMeasure unitOfMeasure)
+    public ShoppingListItem AddItem(
+        string name,
+        decimal quantity,
+        UnitOfMeasure unitOfMeasure,
+        Guid? id = null)
     {
         EnsureActive();
 
-        var item = ShoppingListItem.Create(Id, name, quantity, unitOfMeasure, _items.Count);
+        var item = ShoppingListItem.Create(Id, name, quantity, unitOfMeasure, _items.Count, id);
         _items.Add(item);
 
         return item;

@@ -46,10 +46,11 @@ public sealed class ShoppingListItem
         string name,
         decimal quantity,
         UnitOfMeasure unitOfMeasure,
-        int position)
+        int position,
+        Guid? id = null)
     {
         return new ShoppingListItem(
-            Guid.NewGuid(),
+            id ?? Guid.NewGuid(),
             shoppingListId,
             name,
             quantity,

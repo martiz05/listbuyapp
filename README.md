@@ -224,8 +224,17 @@ The initial scaffold includes:
   Android host application.
 - Authenticated API operations to create shopping lists, add items with decimal
   quantities and update item status.
-- A local Compose interaction to create a list, add products and mark selected
-  products while the persistence and sync layer is built.
+- Room persistence shared through Kotlin Multiplatform, including a versioned
+  schema for shopping lists, items and pending synchronization operations.
+- A Ktor client for registration, login, token refresh and authenticated list
+  synchronization.
+- An offline-first Compose flow to create a list, add products with decimal
+  quantities and mark selected products. Changes are stored locally before
+  synchronization and retried with client-generated identifiers.
+
+The current mobile session store intentionally keeps tokens in memory only.
+Persistent mobile login must be added later with Android Keystore-backed secure
+storage; tokens must never be written to plain preferences or committed files.
 
 ## Local Development
 
@@ -281,3 +290,8 @@ From the `mobile` directory, build the Android debug APK:
 ```
 
 The generated APK is written below `mobile/androidApp/build/outputs/apk/debug`.
+
+The debug application uses `http://10.0.2.2:5130` to reach the backend running
+on the host machine from the Android emulator. Cleartext HTTP is enabled only
+for local debug development. Production builds must use HTTPS and a
+release-specific API URL.

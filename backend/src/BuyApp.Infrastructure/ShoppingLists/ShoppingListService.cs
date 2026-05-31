@@ -38,7 +38,16 @@ public sealed class ShoppingListService(BuyAppDbContext dbContext) : IShoppingLi
         CreateShoppingListCommand command,
         CancellationToken cancellationToken)
     {
-        var shoppingList = ShoppingList.Create(userId, command.Name, DateTimeOffset.UtcNow);
+        if (command.Id is not null)
+        {
+            var existingList = await FindOwnedListAsync(userId, command.Id.Value, cancellationToken);
+            if (existingList is not null)
+            {
+                return MapDetails(existingList);
+            }
+        }
+
+        var shoppingList = ShoppingList.Create(userId, command.Name, DateTimeOffset.UtcNow, command.Id);
 
         dbContext.ShoppingLists.Add(shoppingList);
         await dbContext.SaveChangesAsync(cancellationToken);
@@ -58,7 +67,16 @@ public sealed class ShoppingListService(BuyAppDbContext dbContext) : IShoppingLi
             return null;
         }
 
-        var item = shoppingList.AddItem(command.Name, command.Quantity, command.UnitOfMeasure);
+        if (command.Id is not null && shoppingList.Items.Any(item => item.Id == command.Id))
+        {
+            return MapDetails(shoppingList);
+        }
+
+        var item = shoppingList.AddItem(
+            command.Name,
+            command.Quantity,
+            command.UnitOfMeasure,
+            command.Id);
         dbContext.Add(item);
         await dbContext.SaveChangesAsync(cancellationToken);
 

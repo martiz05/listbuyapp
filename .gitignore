@@ -1,0 +1,70 @@
+# Operating systems
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors and IDEs
+.idea/
+.vscode/
+*.iml
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+secrets/
+**/secrets.json
+**/appsettings.Development.json
+**/appsettings.Local.json
+**/appsettings.*.local.json
+*.pfx
+*.p12
+*.pem
+*.key
+*.jks
+*.keystore
+signing.properties
+local.properties
+google-services.json
+GoogleService-Info.plist
+
+# .NET
+**/bin/
+**/obj/
+**/out/
+**/TestResults/
+**/coverage/
+**/coverage.*
+*.nupkg
+*.snupkg
+artifacts/
+
+# Gradle, Kotlin and Android
+.gradle/
+.kotlin/
+**/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# iOS and Xcode (future Kotlin Multiplatform target)
+Pods/
+DerivedData/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcuserstate
+
+# Docker local overrides
+docker-compose.override.yml
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+*.bak
+*~

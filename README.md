@@ -222,6 +222,10 @@ The initial scaffold includes:
 - An initial Entity Framework Core migration for Identity tables.
 - An Android-first Kotlin Multiplatform project with shared Compose UI and an
   Android host application.
+- Authenticated API operations to create shopping lists, add items with decimal
+  quantities and update item status.
+- A local Compose interaction to create a list, add products and mark selected
+  products while the persistence and sync layer is built.
 
 ## Local Development
 

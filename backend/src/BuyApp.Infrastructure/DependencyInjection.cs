@@ -1,5 +1,7 @@
+using BuyApp.Application.ShoppingLists;
 using BuyApp.Infrastructure.Identity;
 using BuyApp.Infrastructure.Persistence;
+using BuyApp.Infrastructure.ShoppingLists;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +28,7 @@ public static class DependencyInjection
             .AddEntityFrameworkStores<BuyAppDbContext>();
 
         services.AddAuthorization();
+        services.AddScoped<IShoppingListService, ShoppingListService>();
 
         return services;
     }

@@ -17,6 +17,7 @@ Desktop.ini
 .env
 .env.*
 !.env.example
+.dotnet/
 secrets/
 **/secrets.json
 **/appsettings.Development.json

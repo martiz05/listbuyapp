@@ -207,3 +207,73 @@ with passwords, production data or personally identifiable information.
 - Use a personal Git identity for this repository.
 - Document significant architecture decisions in `docs/adr/`.
 
+## Current Implementation
+
+The initial scaffold includes:
+
+- A .NET 10 solution with `Domain`, `Application`, `Infrastructure` and `Api`
+  projects.
+- PostgreSQL persistence through Entity Framework Core and Npgsql.
+- ASP.NET Core Identity email and password endpoints under `/api/v1/auth`.
+- An authenticated profile endpoint at `/api/v1/account/me`.
+- A health endpoint at `/health`.
+- Domain rules and tests for ISO currency codes and historical exchange-rate
+  conversion.
+- An initial Entity Framework Core migration for Identity tables.
+- An Android-first Kotlin Multiplatform project with shared Compose UI and an
+  Android host application.
+
+## Local Development
+
+### Requirements
+
+- .NET SDK `10.0.300` or a compatible newer feature-band release.
+- Docker Desktop for local PostgreSQL.
+- JDK 17.
+- Android SDK Platform 36 and Build Tools 36 for the Android application.
+
+### PostgreSQL
+
+Copy `.env.example` to `.env`, replace the placeholder with a local-only
+password and start PostgreSQL:
+
+```powershell
+docker compose up -d postgres
+```
+
+### Backend
+
+Configure the local connection string with .NET user secrets. Replace both
+password placeholders with the value selected in `.env`:
+
+```powershell
+dotnet user-secrets set `
+  "ConnectionStrings:BuyAppDatabase" `
+  "Host=localhost;Port=5432;Database=buyapp;Username=buyapp;Password=replace-with-your-local-password" `
+  --project backend/src/BuyApp.Api
+
+dotnet ef database update `
+  --project backend/src/BuyApp.Infrastructure `
+  --startup-project backend/src/BuyApp.Api
+
+dotnet run --project backend/src/BuyApp.Api
+```
+
+Verify the API at `http://localhost:5130/health`.
+
+Run the backend checks:
+
+```powershell
+dotnet build BuyApp.sln --configuration Release
+dotnet test BuyApp.sln --configuration Release --no-build
+```
+
+### Android
+
+From the `mobile` directory, build the Android debug APK:
+
+```powershell
+.\gradlew.bat :androidApp:assembleDebug
+```
+
+The generated APK is written below `mobile/androidApp/build/outputs/apk/debug`.

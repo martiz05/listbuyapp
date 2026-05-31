@@ -1,0 +1,6 @@
+@BuyApp.Api_HostAddress = http://localhost:5130
+
+GET {{BuyApp.Api_HostAddress}}/health
+Accept: application/json
+
+###
